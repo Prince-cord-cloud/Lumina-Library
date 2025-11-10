@@ -79,7 +79,7 @@ CSS STRUCTURE:
 
 /* Fonts */
 :root {
-    --body-font           : "Nunito", sans-serif;
+    --body-font           : "Nunito", Tahoma;
     --heading-font        : "Nunito", sans-serif;
 }
 
