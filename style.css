@@ -80,7 +80,7 @@ CSS STRUCTURE:
 /* Fonts */
 :root {
     --body-font           : "Nunito", Tahoma;
-    --heading-font        : "Nunito", sans-serif;
+    --heading-font        : "Nunito", Tahoma;
 }
 
 @media (min-width: 1850px){

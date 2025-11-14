@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Book Access</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Poppins", sans-serif;
+        }
+
+        body {
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #f0f4f8;
+        }
+
+        .container {
+            background: white;
+            width: 340px;
+            padding: 25px 30px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        h2 {
+            color: #0077b6;
+            margin-bottom: 20px;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+            font-size: 15px;
+        }
+
+        input:focus {
+            border-color: #0077b6;
+            outline: none;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background: #0077b6;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background 0.3s;
+            margin-top: 15px;
+        }
+
+        button:hover {
+            background: #023e8a;
+        }
+
+        .error {
+            margin-top: 10px;
+            color: #e63946;
+            font-weight: 600;
+            display: none;
+        }
+
+        a {
+            color: #0077b6;
+            text-decoration: none;
+            font-weight: 600;
+            display: inline-block;
+            margin-top: 15px;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <h2>Access Your Book</h2>
+
+        <input type="password" id="accessCode" placeholder="Enter Password">
+
+        <button onclick="checkPassword()">Submit</button>
+
+        <p><a href="payment.html">Don't have a password? Make Payment</a></p>
+
+        <div class="error" id="errorMsg">❌ Wrong password! Please make payment.</div>
+    </div>
+
+    <script>
+        function checkPassword() {
+            const code = document.getElementById("accessCode").value;
+            const errorMsg = document.getElementById("errorMsg");
+
+            if (code === "BOOK1(AGING SECRET)") {  
+                window.location.href = "book.html"; 
+            } else {
+                errorMsg.style.display = "block";
+            }
+        }
+    </script>
+
+</body>
+</html>

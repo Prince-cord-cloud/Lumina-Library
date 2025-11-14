@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Payment Confirmation</title>
+
+    <!-- Modern Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Poppins", sans-serif;
+        }
+
+        body {
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #e8f0ff, #ffffff);
+            padding: 20px;
+        }
+
+        .container {
+            background: #ffffff;
+            padding: 35px 30px;
+            border-radius: 15px;
+            width: 100%;
+            max-width: 420px;
+            text-align: center;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            animation: fadeIn 0.7s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        h2 {
+            color: #0077b6;
+            font-size: 22px;
+            margin-bottom: 25px;
+            font-weight: 600;
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+            text-align: left;
+        }
+
+        label {
+            font-weight: 600;
+            margin-bottom: 6px;
+            display: block;
+            color: #333;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            font-size: 15px;
+            background: #f8fafc;
+            transition: 0.2s ease;
+        }
+
+        input:focus {
+            border-color: #0077b6;
+            background: #ffffff;
+            box-shadow: 0 0 5px rgba(0, 119, 182, 0.3);
+        }
+
+        button {
+            width: 100%;
+            padding: 14px;
+            background: #0077b6;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            color: white;
+            cursor: pointer;
+            transition: 0.3s ease;
+            margin-top: 15px;
+            box-shadow: 0 4px 12px rgba(0, 119, 182, 0.3);
+        }
+
+        button:hover {
+            background: #005e94;
+            transform: translateY(-2px);
+        }
+
+        button:active {
+            transform: scale(0.97);
+        }
+
+        .expiry {
+            margin-top: 10px;
+            font-size: 14px;
+            color: #d62828;
+            font-weight: 600;
+        }
+
+        .timer {
+            margin-top: 5px;
+            font-size: 15px;
+            color: #0077b6;
+            font-weight: 600;
+        }
+
+        .message {
+            margin-top: 15px;
+            font-weight: 600;
+            color: green;
+            display: none;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <h2>Make Payment</h2>
+
+        <div class="form-group">
+            <label for="bankName">Bank Name</label>
+            <input type="text" id="bankName" readonly />
+        </div>
+
+        <div class="form-group">
+            <label for="accountNumber">Account Number</label>
+            <input type="text" id="accountNumber" readonly />
+        </div>
+
+        <div class="form-group">
+            <label for="accountName">Account Name</label>
+            <input type="text" id="accountName" readonly />
+        </div>
+
+        <div class="expiry">⚠️ Account details expire after 20 minutes</div>
+        <div class="timer" id="countdown">Time remaining: 20:00</div>
+
+        <button id="confirmBtn">I've Made Payment</button>
+        <div class="message" id="message">✅ Payment confirmed! Opening email...</div>
+    </div>
+
+    <script>
+        const accounts = [
+            { bank: "GoMoney", name: "Vincent Nwankwo", number: "8500809270" },
+            { bank: "Opay", name: "Vincent Juom Nwankwo", number: "8037541810" },
+            { bank: "Monipoint", name: "Vincent Juom Nwankwo", number: "7033100606" }
+        ];
+
+        const bankName = document.getElementById("bankName");
+        const accountNumber = document.getElementById("accountNumber");
+        const accountName = document.getElementById("accountName");
+        const confirmBtn = document.getElementById("confirmBtn");
+        const message = document.getElementById("message");
+        const countdownEl = document.getElementById("countdown");
+
+        let index = 0;
+        let timeLeft = 20 * 60; // 20 minutes
+
+        function showAccount(i) {
+            bankName.value = accounts[i].bank;
+            accountNumber.value = accounts[i].number;
+            accountName.value = accounts[i].name;
+        }
+
+        function updateCountdown() {
+            const minutes = Math.floor(timeLeft / 60);
+            const seconds = timeLeft % 60;
+            countdownEl.textContent =
+                `Time remaining: ${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        }
+
+        showAccount(index);
+        updateCountdown();
+
+        setInterval(() => {
+            timeLeft--;
+            if (timeLeft < 0) {
+                index = (index + 1) % accounts.length;
+                showAccount(index);
+                timeLeft = 20 * 60;
+            }
+            updateCountdown();
+        }, 1000);
+
+        confirmBtn.addEventListener("click", () => {
+            confirmBtn.disabled = true;
+            message.style.display = "block";
+
+            const adminEmail = "hart4sure@gmail.com";
+            const subject = encodeURIComponent("Payment Confirmation Request");
+            const body = encodeURIComponent(
+                `Hello Admin,\n\nI have made payment to the following account:\n\nBank: ${bankName.value}\nAccount Number: ${accountNumber.value}\nAccount Name: ${accountName.value}\n\nPlease approve my request and send the password.\n\nThank you.`
+            );
+
+            setTimeout(() => {
+                window.location.href = `mailto:${adminEmail}?subject=${subject}&body=${body}`;
+            }, 800);
+        });
+    </script>
+
+</body>
+</html>
