@@ -26,14 +26,25 @@
         }
 
         .card {
+            position: relative;
             background: white;
             padding: 35px 30px;
             border-radius: 15px;
             text-align: center;
-            max-width: 420px;
+            max-width: 450px;
             width: 100%;
             box-shadow: 0 8px 25px rgba(0,0,0,0.1);
             animation: fadeIn 0.7s ease-in-out;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 24px;
+            font-weight: bold;
+            color: #e63946;
+            cursor: pointer;
         }
 
         @keyframes fadeIn {
@@ -95,6 +106,7 @@
 <body>
 
     <div class="card">
+        <span class="close-btn" id="closeBtn">&times;</span>
         <h2>🎉 Congratulations!</h2>
         <p>You now have full access to your book.</p>
 
@@ -102,6 +114,13 @@
             <button>Open Book</button>
         </a>
     </div>
+  
+<script>
+    // Redirect to payment.html outside current folder
+    document.getElementById('closeBtn').addEventListener('click', function() {
+        window.location.href = "access.html";
+    });
+</script>
 
 </body>
 </html>

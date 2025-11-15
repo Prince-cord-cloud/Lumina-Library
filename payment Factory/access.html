@@ -22,12 +22,33 @@
         }
 
         .container {
+            position: relative;
             background: white;
-            width: 340px;
-            padding: 25px 30px;
+            width: 380px;
+            padding: 45px 10px;
             border-radius: 10px;
             text-align: center;
             box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeIn 0.7s forwards ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 24px;
+            font-weight: bold;
+            color: #e63946;
+            cursor: pointer;
         }
 
         h2 {
@@ -88,7 +109,8 @@
 
 <body>
 
-    <div class="container">
+    <div class="container" id="accessContainer">
+        <span class="close-btn" onclick="redirectHome()">&times;</span>
         <h2>Access Your Book</h2>
 
         <input type="password" id="accessCode" placeholder="Enter Password">
@@ -110,6 +132,11 @@
             } else {
                 errorMsg.style.display = "block";
             }
+        }
+
+        function redirectHome() {
+            // Redirect to another page
+            window.location.href = "../index.html"; // change this path to the page you want
         }
     </script>
 

@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Categories Popup</title>
+<style>
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+}
+button {
+  padding: 12px 20px;
+  background: #4CAF50;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  margin: 20px;
+  font-size: 16px;
+  border-radius: 6px;
+}
+.popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.6);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+.popup-content {
+  background: white;
+  width: 90%;
+  max-width: 900px;
+  border-radius: 12px;
+  padding: 20px;
+  position: relative;
+}
+.close {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  cursor: pointer;
+  font-size: 28px;
+  font-weight: bold;
+}
+.slider-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.arrow-btn {
+  background: #000;
+  color: #fff;
+  border: none;
+  padding: 10px 16px;
+  font-size: 18px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+.books-wrapper {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  width: 100%;
+}
+.book-card {
+  background: #fff;
+  border-radius: 10px;
+  padding: 10px;
+  text-align: center;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+.book-card img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+@media (max-width: 1024px){
+  .books-wrapper {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (max-width: 768px){
+  .books-wrapper {
+    grid-template-columns: repeat(1, 1fr);
+  }
+}
+</style>
+</head>
+<body>
+<button id="openPopup">Books Category</button>
+<div class="popup" id="popupBox">
+  <div class="popup-content">
+    <span class="close" id="closePopup">&times;</span>
+    <div class="slider-container">
+      <button class="arrow-btn" id="prevBtn">&#8592;</button>
+      <div class="books-wrapper" id="booksWrapper"></div>
+      <button class="arrow-btn" id="nextBtn">&#8594;</button>
+    </div>
+  </div>
+</div>
+<script>
+const books = [
+  {img: 'https://via.placeholder.com/200x250', title: 'Book One', author: 'Author A', price: '$10'},
+  {img: 'https://via.placeholder.com/200x250', title: 'Book Two', author: 'Author B', price: '$12'},
+  {img: 'https://via.placeholder.com/200x250', title: 'Book Three', author: 'Author C', price: '$15'},
+  {img: 'https://via.placeholder.com/200x250', title: 'Book Four', author: 'Author D', price: '$9'},
+  {img: 'https://via.placeholder.com/200x250', title: 'Book Five', author: 'Author E', price: '$8'},
+  {img: 'https://via.placeholder.com/200x250', title: 'Book Six', author: 'Author F', price: '$11'},
+  {img: 'https://via.placeholder.com/200x250', title: 'Book Seven', author: 'Author G', price: '$14'},
+  {img: 'https://via.placeholder.com/200x250', title: 'Book Eight', author: 'Author H', price: '$13'},
+  {img: 'https://via.placeholder.com/200x250', title: 'Book Nine', author: 'Author I', price: '$10'},
+  {img: 'https://via.placeholder.com/200x250', title: 'Book Ten', author: 'Author J', price: '$16'}
+];
+let startIndex = 0;
+let pageSize = 3;
+function getPageSize(){
+  if(window.innerWidth <= 768) return 1;
+  if(window.innerWidth <= 1024) return 2;
+  return 3;
+}
+const wrapper = document.getElementById('booksWrapper');
+function renderBooks() {
+  pageSize = getPageSize();
+  wrapper.innerHTML = '';
+  const items = books.slice(startIndex, startIndex + pageSize);
+  items.forEach(book => {
+    wrapper.innerHTML += `
+      <div class="book-card">
+        <img src="${book.img}" />
+        <h3>${book.title}</h3>
+        <p><strong>Author:</strong> ${book.author}</p>
+        <p><strong>Price:</strong> ${book.price}</p>
+      </div>`;
+  });
+}
+document.getElementById("nextBtn").onclick = () => {
+  if (startIndex + pageSize < books.length) {
+    startIndex += pageSize;
+    renderBooks();
+  }
+};
+document.getElementById("prevBtn").onclick = () => {
+  if (startIndex - pageSize >= 0) {
+    startIndex -= pageSize;
+    renderBooks();
+  }
+};
+const popup = document.getElementById('popupBox');
+document.getElementById('openPopup').onclick = () => {
+  popup.style.display = 'flex';
+  renderBooks();
+};
+document.getElementById('closePopup').onclick = () => popup.style.display = 'none';
+window.onclick = e => { if (e.target === popup) popup.style.display = 'none'; };
+window.onresize = renderBooks;
+</script>
+</body>
+</html>
